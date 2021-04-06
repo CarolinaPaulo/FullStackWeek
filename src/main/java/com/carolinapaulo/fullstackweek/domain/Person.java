@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -30,6 +32,30 @@ public class Person {
 	private Integer age;
 	
 	private String birthdayDate;
+	
+	private Boolean isVaccinated;
+	
+	@ManyToOne
+	@JoinColumn(name="codigo_grupo_prioridade")
+	private PriorityGroups groups;
+	
+	//Setters And Getters
+
+	public Boolean getIsVaccinated() {
+		return isVaccinated;
+	}
+
+	public void setIsVaccinated(Boolean isVaccinated) {
+		this.isVaccinated = isVaccinated;
+	}
+
+	public PriorityGroups getGroups() {
+		return groups;
+	}
+
+	public void setGroups(PriorityGroups groups) {
+		this.groups = groups;
+	}
 
 	public Long getId() {
 		return PersonId;

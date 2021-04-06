@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.carolinapaulo.fullstackweek.repository.PersonRepository;
 
 @RestController
 @RequestMapping("/people")
+@CrossOrigin(origins = { "http://localhost:3000"})	
 public class PersonController {
 	
 	@Autowired
@@ -39,10 +41,10 @@ public class PersonController {
 		
 	}
 	
-	@PutMapping
-	public ResponseEntity<Person> updatePerson(@PathVariable Long id, @RequestBody Person person){
+	@PutMapping("/{PersonId}")
+	public ResponseEntity<Person> updatePerson(@PathVariable Long PersonId, @RequestBody Person person){
 		
-		return personRepository.findById(id).map(
+		return personRepository.findById(PersonId).map(
 				record -> {
 					record.setCpf(person.getCpf());
 					record.setAge(person.getAge());
@@ -50,6 +52,7 @@ public class PersonController {
 					record.setEmail(person.getEmail());
 					record.setName(person.getName());
 					record.setTelefone(person.getTelefone());
+					record.setIsVaccinated(person.getIsVaccinated());
 					Person personUpdated = personRepository.save(record);
 					return ResponseEntity.ok().body(personUpdated);
 				}).orElse(ResponseEntity.notFound().build());
